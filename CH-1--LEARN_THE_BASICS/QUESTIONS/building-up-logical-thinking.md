@@ -192,3 +192,112 @@ for (let i = 0; i < size; i++) {
 
 - Time Complexity: **O(n²)**
 - Space Complexity: **O(1)**
+
+
+---
+
+## Pattern 5: Reverse a Number
+
+### Example
+```
+Input: 7898
+Output: 8987
+```
+
+### Logic
+- Extract last digit using `% 10`
+- Build reverse by shifting digits left
+- Remove last digit using integer division
+
+```js
+let num = 7898;
+let reverse = 0;
+
+while (num > 0) {
+  let digit = num % 10;
+  reverse = reverse * 10 + digit;
+  num = Math.floor(num / 10);
+}
+
+console.log(reverse); // 8987
+```
+
+- Time Complexity: **O(d)** (d = number of digits)
+- Space Complexity: **O(1)**
+
+
+---
+
+## Math.floor() vs Math.ceil()
+
+### Basic Difference
+- `Math.floor()` → rounds **downward (toward −∞)**
+- `Math.ceil()` → rounds **upward (toward +∞)**
+
+### Positive Numbers
+
+| Number | Math.floor() | Math.ceil() |
+|------|-------------|-------------|
+| 4.1  | 4 | 5 |
+| 4.9  | 4 | 5 |
+| 4.0  | 4 | 4 |
+| 7.01 | 7 | 8 |
+
+### Negative Numbers (Important)
+
+| Number | Math.floor() | Math.ceil() |
+|------|-------------|-------------|
+| -4.1 | -5 | -4 |
+| -4.9 | -5 | -4 |
+| -4.0 | -4 | -4 |
+
+### Key Reminder
+- **floor → toward −∞**
+- **ceil → toward +∞**
+
+> Very important for digit extraction, math problems, and loops.
+
+
+---
+
+## Pattern 6: Reverse Integer with Overflow Check (LeetCode Style)
+
+### Problem
+Reverse an integer `x`.  
+If the reversed integer overflows **32-bit signed integer range** `[-2^31, 2^31 - 1]`, return `0`.
+
+### Logic
+- Track sign separately
+- Reverse digits using modulo and division
+- Before adding a digit, check for overflow:
+  - Max value = `2147483647`
+- If overflow is detected → return `0`
+
+```js
+var reverse = function(x) {
+    let isNeg = x < 0;
+    let num = Math.abs(x);
+    let reverse = 0;
+
+    while (num > 0) {
+        let digit = num % 10;
+        if (
+            reverse > Math.floor(2147483647 / 10) ||
+            (reverse === Math.floor(2147483647 / 10) && digit > 7)
+        ) {
+            return 0;
+        }
+
+        reverse = reverse * 10 + digit;
+        num = Math.floor(num / 10);
+    }
+
+    return isNeg ? -reverse : reverse;
+};
+```
+
+### Complexity
+- **Time Complexity:** `O(d)` (d = number of digits)
+- **Space Complexity:** `O(1)`
+
+> Common interview problem focusing on edge cases and overflow handling.
