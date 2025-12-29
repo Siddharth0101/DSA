@@ -301,3 +301,76 @@ var reverse = function(x) {
 - **Space Complexity:** `O(1)`
 
 > Common interview problem focusing on edge cases and overflow handling.
+
+
+---
+
+## Pattern 7: GCD (Greatest Common Divisor) — Euclidean Algorithm
+
+### Logic
+- Uses recursion
+- Base case: if `b === 0`, GCD is `a`
+- Otherwise, call `GCD(b, a % b)`
+
+```js
+function GCD(a, b) {
+    if (b === 0) return a;
+    return GCD(b, a % b);
+}
+```
+
+### Complexity
+- **Time Complexity:** `O(log(min(a, b)))`
+- **Space Complexity:** `O(log(min(a, b)))` (recursive stack)
+
+> One of the most important number algorithms in DSA and interviews.
+
+
+---
+
+## Pattern 8: Armstrong Number
+
+### Definition
+A number is an **Armstrong number** if the sum of its digits raised to the power of the number of digits equals the original number.
+
+### Logic
+- Count number of digits
+- Extract each digit
+- Raise digit to the power of total digits
+- Compare sum with original number
+
+```js
+function Armstrong(num) {
+    let original = num;
+    let digits = 0;
+    let temp = num;
+
+    // count digits
+    while (temp > 0) {
+        digits++;
+        temp = Math.floor(temp / 10);
+    }
+
+    let sum = 0;
+    temp = num;
+
+    // calculate power sum
+    while (temp > 0) {
+        let digit = temp % 10;
+        sum += digit ** digits;
+        temp = Math.floor(temp / 10);
+    }
+
+    return sum === original;
+}
+
+console.log(Armstrong(153));  // true
+console.log(Armstrong(9474)); // true
+console.log(Armstrong(1533)); // false
+```
+
+### Complexity
+- **Time Complexity:** `O(d)` (d = number of digits)
+- **Space Complexity:** `O(1)`
+
+> Commonly asked number problem in interviews and exams.
