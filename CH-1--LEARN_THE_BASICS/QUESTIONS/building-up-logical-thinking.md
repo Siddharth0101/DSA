@@ -374,3 +374,40 @@ console.log(Armstrong(1533)); // false
 - **Space Complexity:** `O(1)`
 
 > Commonly asked number problem in interviews and exams.
+
+
+---
+
+## Pattern 9: Reverse an Array (Recursion)
+
+### Logic
+- Use two pointers (`left`, `right`)
+- Base case: stop when `left >= right`
+- Swap elements and move inward recursively
+
+```js
+function reverseArray(arr, left, right) {
+    // base case
+    if (left >= right) {
+        return;
+    }
+
+    // swap
+    let temp = arr[left];
+    arr[left] = arr[right];
+    arr[right] = temp;
+
+    // recursive call
+    reverseArray(arr, left + 1, right - 1);
+}
+
+let arr = [1, 2, 3, 4, 5];
+reverseArray(arr, 0, arr.length - 1);
+console.log(arr); // [5, 4, 3, 2, 1]
+```
+
+### Complexity
+- **Time Complexity:** `O(n)`
+- **Space Complexity:** `O(n)` (recursive stack)
+
+> Demonstrates recursion + two-pointer technique.
