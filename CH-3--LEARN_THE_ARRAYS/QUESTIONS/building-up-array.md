@@ -131,3 +131,135 @@ var missingNumber = function(nums) {
 
 console.log(missingNumber([3,0,1])); // 2
 ```
+
+---
+
+## 3️⃣ Single Number
+
+### Idea
+- XOR all numbers: `a ^ a = 0` and `a ^ 0 = a`
+- Since every number appears twice except one, duplicates cancel out.
+- The remaining result is the single number.
+
+```js
+var singleNumber = function(nums) {
+    let ans = 0;
+
+    for (let num of nums) {
+        ans ^= num;
+    }
+
+    return ans;
+};
+
+console.log(singleNumber([4,1,2,1,2])); // 4
+```
+
+### Complexity
+- **Time Complexity:** O(n)
+- **Space Complexity:** O(1)
+
+---
+
+## 4️⃣ Sort Colors
+
+### Solution 1: Two Pointers with Auxiliary Array
+```js
+var sortColors = function(nums) {
+    const newArr = new Array(nums.length).fill(1);
+    let left = 0;
+    let right = nums.length - 1;
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] == 0) {
+            newArr[left] = 0;
+            left++;
+        } else if (nums[i] == 2) {
+            newArr[right] = 2;
+            right--;
+        }
+    }
+    for (let i = 0; i < newArr.length; i++) {
+        nums[i] = newArr[i];
+    }
+    return nums;
+};
+console.log(sortColors([2, 0, 2, 1, 1, 0]));
+// const arr=new Array(6).fill(1)
+// console.log(arr)
+```
+
+### Solution 2: Dutch National Flag Algorithm (Optimal In-Place)
+- **Idea**: Use three pointers (`low`, `mid`, `high`).
+  - `0` to `low-1`: Zeros
+  - `low` to `mid-1`: Ones
+  - `high+1` to `n-1`: Twos
+- **Steps**:
+  - If `nums[mid] == 0`: Swap with `nums[low]`, increment `low` and `mid`.
+  - If `nums[mid] == 1`: Increment `mid`.
+  - If `nums[mid] == 2`: Swap with `nums[high]`, decrement `high`.
+
+```js
+var sortColorsDutchFlag = function(nums) {
+    let low = 0;
+    let mid = 0;
+    let high = nums.length - 1;
+
+    while (mid <= high) {
+        if (nums[mid] === 0) {
+            // Swap mid and low
+            [nums[low], nums[mid]] = [nums[mid], nums[low]];
+            low++;
+            mid++;
+        } else if (nums[mid] === 1) {
+            mid++;
+        } else {
+            // Swap mid and high
+            [nums[high], nums[mid]] = [nums[mid], nums[high]];
+            high--;
+        }
+    }
+    return nums;
+};
+
+console.log(sortColorsDutchFlag([2, 0, 2, 1, 1, 0]));
+```
+
+### Complexity
+- **Time Complexity**: O(n) (One pass)
+- **Space Complexity**: O(1) (In-place)
+
+---
+
+## 5️⃣ Majority Element (>n/2)
+
+### Boyer-Moore Voting Algorithm
+- **Idea**: If a number appears more than `n/2` times, it will survive cancellations against other numbers.
+- **Steps**:
+  - Maintain a `candidate` and a `count`.
+  - If `count` is 0, update `candidate` to current number.
+  - If current number matches `candidate`, increment `count`.
+  - Otherwise, decrement `count`.
+
+```js
+var majorityElement = function(nums) {
+    let candidate = null;
+    let count = 0;
+
+    for (let num of nums) {
+        if (count === 0) {
+            candidate = num;
+        }
+        
+        // If current num matches candidate, count goes up, else down
+        count += (num === candidate) ? 1 : -1;
+    }
+
+    return candidate;
+};
+// console.log(majorityElement([3,2,3])); // 3
+// console.log(majorityElement([2,2,1,1,1,2,2])); // 2
+```
+
+### Complexity
+- **Time Complexity**: O(n)
+- **Space Complexity**: O(1)
