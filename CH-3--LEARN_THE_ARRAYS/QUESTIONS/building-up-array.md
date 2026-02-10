@@ -263,3 +263,74 @@ var majorityElement = function(nums) {
 ### Complexity
 - **Time Complexity**: O(n)
 - **Space Complexity**: O(1)
+
+---
+
+## 6️⃣ Maximum Subarray Sum (Kadane's Algorithm)
+
+### Idea
+- Iterate through the array, keeping track of the `currentSum` and `maxSum`.
+- At each step, decide whether to:
+    1. Start a new subarray with the current number (if adding it to the previous sum makes it smaller than the number itself).
+    2. Extend the current subarray by adding the current number.
+- Update `maxSum` whenever `currentSum` exceeds it.
+
+```js
+var maxSubArray = function(nums) {
+    let maxSum = nums[0];
+    let currentSum = nums[0];
+
+    for (let i = 1; i < nums.length; i++) {
+        // Step 1: Decide whether to start a new subarray or continue the current one
+        currentSum = Math.max(nums[i], currentSum + nums[i]);
+        
+        // Step 2: Update the global maximum
+        maxSum = Math.max(maxSum, currentSum);
+    }
+
+    return maxSum;
+};
+
+// console.log(maxSubArray([-2,1,-3,4,-1,2,1,-5,4])); // 6 (subarray [4,-1,2,1])
+```
+
+### Complexity
+- **Time Complexity:** O(n)
+- **Space Complexity:** O(1)
+
+---
+
+## 7️⃣ Best Time to Buy and Sell Stock
+
+### Idea
+- Track the lowest price so far (`minPrice`).
+- Calculate the potential profit at each step (`currentPrice - minPrice`).
+- Update `maxProfit` if the new profit is higher.
+
+```js
+var maxProfit = function(prices) {
+    let minPrice = Infinity; // Start with a really high number
+    let maxProfit = 0;       // Start with 0 profit
+
+    for (let i = 0; i < prices.length; i++) {
+        let currentPrice = prices[i];
+
+        if (currentPrice < minPrice) {
+            // 1. Found a new cheapest price? Update it.
+            minPrice = currentPrice;
+        } else {
+            // 2. Otherwise, check if selling today gives better profit.
+            let profitToday = currentPrice - minPrice;
+            if (profitToday > maxProfit) {
+                maxProfit = profitToday;
+            }
+        }
+    }
+
+    return maxProfit;
+};
+```
+
+### Complexity
+- **Time Complexity:** O(n)
+- **Space Complexity:** O(1)
